@@ -1,0 +1,6 @@
+module Pods_Apprenticeship_ApprenticeshipTests {
+  umbrella header "Pods-Apprenticeship-ApprenticeshipTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

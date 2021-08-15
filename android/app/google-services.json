@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "97659728334",
+    "project_id": "apprenticeship-33975",
+    "storage_bucket": "apprenticeship-33975.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97659728334:android:8584802153b32174f0fb9f",
+        "android_client_info": {
+          "package_name": "com.apprenticeship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97659728334-jpfk1mkev8ha81l2vaetnf2rrabd7qer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8Ws7qz30TgeBYdqDZam5O_knA7OwluVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97659728334-jpfk1mkev8ha81l2vaetnf2rrabd7qer.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
