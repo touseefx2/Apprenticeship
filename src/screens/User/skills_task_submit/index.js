@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef} from 'react';
-import {View,Image,Text ,FlatList, TouchableOpacity,Modal,AppState,ScrollView,BackHandler,Alert,PermissionsAndroid} from 'react-native';
+import {View,Image,Text ,FlatList, TouchableOpacity,Modal,AppState,ScrollView,BackHandler,Alert,ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-paper';
 import utils from "../../../utils/index";
 import GVs from '../../../store/Global_Var';
@@ -15,13 +15,13 @@ import ImagePicker from "react-native-customized-image-picker";
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import { inject, observer } from "mobx-react"; 
 import moment from "moment";
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from   "@react-native-community/geolocation";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BackgroundTimer from 'react-native-background-timer';
 import FileViewer from 'react-native-file-viewer';
-import { Window } from '../../../themes/Window';
 import OpenFile from 'react-native-doc-viewer';
- 
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Window } from '../../../themes/Window';
  
 let photoTypes="image"
 let videoTypes="video"
@@ -54,6 +54,7 @@ let videoTypes="video"
    const [play,setplay]=useState(false);
    const [pause,setpause]=useState(false);
    const [loader,setloader]=useState(true);
+   const [loaderT,setloaderT]=useState(false);
    const [Totalduration,setTotalduration]=useState(0);
    const [Position,setPosition]=useState(0);
    const [Index,setIndex]=useState(""); //music knsa ha uska index
@@ -187,8 +188,12 @@ let videoTypes="video"
     if(video.length<=0){setvideo("") }
   }  
 
+  console.log("item ",item)
 
+ console.log("item data ",item.data)
  
+ console.log("doc ",document)
+
      if(appS=="background" || appS=="inactive"){
       if(Index!==""){
         musicStop(Index)
@@ -215,7 +220,26 @@ let videoTypes="video"
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
      checkIsTimeStop();
     return () => {
+
         // Anything in here is fired on component unmount.
+
+        let c=false
+        if(item.data.length>0){
+          item.data.map((e,i,a)=>{
+           if(e.play || !e.play){
+             c==true
+           }
+          })
+        }
+
+       if((item.data.length>0 && c)|| audio.length>0){
+        dynamicresetarr();
+       }
+       if((item.data.length>0 && c )|| video.length>0){
+        dynamicresetVideoarr();
+       }
+       
+       
         TrackPlayer.destroy();
         AppState.removeEventListener("change", _handleAppStateChange);
         BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
@@ -232,7 +256,6 @@ const  storeUserSkillData = async (value) => {
   }
 }
 
- 
 const locationEnabler=(p)=>{
 
   RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
@@ -247,7 +270,7 @@ const locationEnabler=(p)=>{
       //  - "already-enabled" if the location services has been already enabled
       //  - "enabled" if user has clicked on OK button in the popup
     }).catch((err) => {
- console.log("location enabler popup error : ",err)
+console.log("location enabler popup error : ",err)
  let msg="";
 if(tplay)
 msg="Please Turn On Location for stop time !"
@@ -268,24 +291,40 @@ utils.ToastAndroid.ToastAndroid_LB(msg)
 
 const getCurrentLocation =async  (p)=>{
  
-  setloader(true)
+  setloaderT(true)
 
-  Geolocation.getCurrentPosition(
+    Geolocation.getCurrentPosition(
     (position) => {
-      console.log("geo location then  : ",position);
+    console.log("geo location then  : ",position);
     setTime(p,position.coords.longitude,position.coords.latitude)
-    setloader(false)
+    setloaderT(false)
     },
     (error) => {
-      setloader(false)
+      setloaderT(false)
       console.log("geo location error : ",error)
 
-      if(error.message=="No location provider available."){
+      if(error.code==3){
+        utils.ToastAndroid.ToastAndroid_LB("Location Request Timeout")
+      }
+
+      if(error.code==2){
         locationEnabler(p)
-        }
+      }
 
-   
+      // if(error.message=="No location provider available."){
+      //   
+      //   }
 
+      //   if(error.message=="Location settings are not satisfied."){
+      //     let msg="";
+      //     if(tplay)
+      //     msg="Please Turn On Location for stop time !"
+      //     else
+      //     msg="Please Turn On Location for start time !"
+          
+      //     utils.ToastAndroid.ToastAndroid_LB(msg)
+      //   }
+ 
 
     },
     { 
@@ -293,12 +332,12 @@ const getCurrentLocation =async  (p)=>{
         android: 'high',
         ios: 'best',
       },
-       enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 10000,
-      forceRequestLocation: true,
-      forceLocationManager: true,
-      showLocationDialog: true,  
+        enableHighAccuracy: true,
+        timeout: 40000,
+        maximumAge: 30000,
+      // forceRequestLocation: true,
+      // forceLocationManager: true,
+      // showLocationDialog: true,  
     }
 );
 
@@ -545,6 +584,25 @@ setIndex("")
  
     if(item.length<=0){
  const arr = audio.map((obj, ii) =>
+    ii === "null" ? {name: obj.name, uri: obj.uri ,play:false,pause:false }
+      : {name: obj.name, uri: obj.uri ,play:false,pause:false}
+  );
+  setaudio(arr);
+    }else{
+      const arr = item.data.map((obj, ii) =>
+      ii === "null" ? {name: obj.name, uri: obj.uri ,play:false,pause:false }
+        : {name: obj.name, uri: obj.uri ,play:false,pause:false}
+    );
+    changeDataInSkill(skillIndex,taskIndex,arr)
+    }
+
+  
+  }
+
+  const dynamicresetVideoarr=()=>{
+ 
+    if(item.length<=0){
+ const arr = video.map((obj, ii) =>
     ii === "null" ? {name: obj.name, uri: obj.uri ,play:false,pause:false }
       : {name: obj.name, uri: obj.uri ,play:false,pause:false}
   );
@@ -896,62 +954,69 @@ if(typ=="stop"){
 
   const onsubmit=()=>{
    
-    if(item.result==null && item.submit==false){
-      submitSkill(skillIndex,taskIndex,true)
-    }
-
-    if(item.result==false && item.submit==true){
- 
-      let t=true;
-      let r=null;
-      resubmitDataInSkill(skillIndex,taskIndex,t,r)
-    }
-    
-   
-      var  data=[];
-      if((document!=""&&text=="")&&item.data.length<=0){data= document}
-      else if((text!=""&&document=="")&&item.data.length<=0){data.push({"text":text})}
-      else if((document!=""&&text!="")&&item.data.length<=0)
-      { 
-        document.map((e,i,a)=>{
-          console.log("e : ",e)
-           data.push(e)
-        })
-         data.push({"text":text})
+    if(!tplay){
+      if(item.result==null && item.submit==false){
+        submitSkill(skillIndex,taskIndex,true)
       }
-      else if((document==""&&text=="")&& item.data.length>0){data=item.data}
-      else if((document==""&&text!="")&& item.data.length>0){
-
-         
-        
-        item.data.map((e,i,a)=>{
-          if(e.text!=""){
-           data.push(e)
-          }     
-        })
-
-        data.push({"text":text})
-
-
-      }
-      else if(photo!=""||item.data.length>0){data=photo || item.data}
-      else if(audio!=""||item.data.length>0){data=audio || item.data}
-      else if(video!=""||item.data.length>0){data=video || item.data}
-     
   
-      addDataInSkill(skillIndex,taskIndex,data)
-      
-      const resetAction = CommonActions.reset({
-        index: 0,
-        routes: [{ name:from=="home"?"Home":"Skill" }]
-    });
-
-      props.navigation.dispatch(resetAction); 
+      if(item.result==false && item.submit==true){
    
+        let t=true;
+        let r=null;
+        resubmitDataInSkill(skillIndex,taskIndex,t,r)
+      }
+      
+     
+        var  data=[];
+        if((document!=""&&text=="")&&item.data.length<=0){data= document}
+        else if((text!=""&&document=="")&&item.data.length<=0){data.push({"text":text})}
+        else if((document!=""&&text!="")&&item.data.length<=0)
+        { 
+          document.map((e,i,a)=>{
+            console.log("e : ",e)
+             data.push(e)
+          })
+           data.push({"text":text})
+        }
+        else if((document==""&&text=="")&& item.data.length>0){data=item.data}
+        else if((document==""&&text!="")&& item.data.length>0){
+   
+          item.data.map((e,i,a)=>{
+            if(e.text!=""){
+             data.push(e)
+            }     
+          })
+  
+          data.push({"text":text})
+  
+  
+        }
+        else if(photo!=""||item.data.length>0){data=photo || item.data}
+        else if(audio!=""||item.data.length>0){data=audio || item.data}
+        else if(video!=""||item.data.length>0){data=video || item.data}
+       
     
+      
+
+        addDataInSkill(skillIndex,taskIndex,data)
+
+        console.log("skill after chnge data ",skill[skillIndex].e.task[taskIndex].data)
+        
+        const resetAction = CommonActions.reset({
+          index: 0,
+          routes: [{ name:from=="home"?"Home":"Skill" }]
+      });
+  
+        props.navigation.dispatch(resetAction); 
+    }
+
+    if(tplay){
+    utils.AlertMessage("","Please stop time first")
+    }
+
+ 
   }
 
-   
  const  emptyFields= ()=> 
 {
   if(rqr=="text"){
@@ -1085,7 +1150,7 @@ const removeVideo=(i)=>{
  
 }
 
- const renderSubmitButton=()=>{
+ const renderSubmitButton=(t,height3)=>{
     let c= true;
 
     if((item.result==false&& item.submit==true)){
@@ -1099,9 +1164,10 @@ const removeVideo=(i)=>{
     }
  
    
-  let style={alignSelf:"center",bottom:15,position:"absolute"}
+  let style=null
   
-    
+    style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
+  
    return(
 <View style={style}>
 
@@ -1124,7 +1190,17 @@ Submit
 </Button>
 
 {item.submit&&item.result==false &&(
-  <Button      mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={[styles.button1,{marginTop:10}]}    onPress={()=>{setvv(true)}}>
+  <Button      mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={[styles.button1,{marginTop:10}]}    onPress={()=>{
+    Alert.alert(
+      "Feedback",
+      t,
+      [
+         
+        { text: "OK", onPress: () =>  {} }
+      ]
+    );
+  
+  }}>
  View Supervisor Feedback 
   </Button>
 
@@ -1135,24 +1211,6 @@ Submit
    )
   } 
   
-  const renderFeedbackModal=(t)=>{
-    
-    Alert.alert(
-      "Feedback",
-      t,
-      [
-         
-        { text: "OK", onPress: () =>  {setvv(false)} }
-      ]
-    );
-  
-  
-    return(
-      null
-    )
-     
-  }
- 
   const renderTextOption=()=>{
  
     let dt=""
@@ -1205,7 +1263,7 @@ Submit
 <View   onPress={()=>setarrowdown(!arrowdown)} style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10}}>
 
   
-<View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:10}}>
+<View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:5}}>
 <Text style={{color:"#007069",fontSize:15}}>Text</Text>
 <TouchableOpacity     onPress={()=>setarrowdown(!arrowdown)} > 
 <utils.vectorIcon.AntDesign name={!arrowdown?"arrowdown":"arrowup"} size={20}  color="#007069" />
@@ -1214,10 +1272,10 @@ Submit
 
 {arrowdown &&(
   <View>
-    {(dt!=""&&((item.submit==true&&item.result==true)||(item.submit==true&&item.result==null)))?(
-      <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:270}}> 
+    {(dt!="" ||  dt=="" &&((item.submit==true&&item.result==true)||(item.submit==true&&item.result==null)))?(
+  <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:270}}> 
 <Text style={{  fontSize: 15, color: 'white'}}>
-{dt}
+{dt==""?"Empty":dt}
 </Text>
 </View>
 
@@ -1228,7 +1286,7 @@ Submit
    onChangeText={(t)=>settext(t)}
    defaultValue={dt||text}
   // maxLength={100000}
-   placeholder={(item.result==null&&item.submit==false)?"Enter Here":dt==""?"Empty":""}
+   placeholder={(item.result==null&&item.submit==false)?"Enter Here":dt==""?"Enter Here":"Empty"}
    placeholderTextColor={'white'}
    underlineColorAndroid={'transparent'}
  />
@@ -1319,7 +1377,6 @@ Submit
 
         return(
             <View style={{marginBottom:10,margin:5,padding:15}}>
-      
       {((item.result==null&&item.submit==false)||(item.result==false&&item.submit==true))&&(
       <TouchableOpacity   onPress={()=>UploadDocumentClick()}>
       <View style={{justifyContent:"center",alignItems:"center",alignSelf:"center"}}>
@@ -1344,7 +1401,6 @@ Submit
       )}   
       
     
-     
             </View>
           )
         }
@@ -1368,7 +1424,7 @@ Submit
         
       
    
-  <View style={{backgroundColor:null,width:"100%",flexDirection:"row",alignItems:"center",position:"absolute",top:5,padding:5,paddingLeft:20}}>
+  <View style={{width:"100%",flexDirection:"row",alignItems:"center",position:"absolute",top:5,padding:5,paddingLeft:20}}>
 
   <TouchableOpacity  
   onPress={()=>{setmv(!mv);setp("");setspi(null)}}
@@ -1491,13 +1547,16 @@ return(
 
          const renderDocument=({item,index})=>{
 
+
+          console.log("item : ",item)
+
           let c="";
 
           c= item.text || ""
 
           if(c==""){
 
-            let docname=item.name;
+            let docname=item.name  || "";
             let ext= "";
         
            var d = JSON.stringify(docname).split(".")
@@ -1643,7 +1702,7 @@ return(
         <View  style={styles.timerCard}> 
             
          <TouchableOpacity disabled={ ((item.result==null&&item.submit==false) || (item.result==false&&item.submit==true))  ?false:true}     onPress={()=>{getCurrentLocation(!tplay?true:false)}}>   
-       <utils.vectorIcon.MaterialIcons name="timer" color={ (!tplay&&(((item.result==null&&item.submit==false) || (item.result==false&&item.submit==true)))) ?"green": (tplay&&(item.result==null&&item.submit==false))?"red":"#9B9B9B"} size={35}/>
+       <utils.vectorIcon.MaterialIcons name="timer" color={ (!tplay&&(((item.result==null&&item.submit==false) || (item.result==false&&item.submit==true)))) ?"green": (tplay&&(item.result==null&&item.submit==false)||(item.result==false&&item.submit==true))?"red":"#9B9B9B"} size={35}/>
        </TouchableOpacity>
            
             
@@ -1678,6 +1737,28 @@ return(
             )}
             </View>
              )
+           }
+
+           const loderTimer=()=>{
+            return(
+              <Modal
+              animationType='fade'
+              transparent={true}
+              visible={loaderT}
+              >
+          
+              <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'center', alignItems: 'center' }}>
+            
+            <Text style={{fontSize:14,color:"white"}}>Getting Current Location ......</Text>
+              <ActivityIndicator
+               size='large'
+               color={"#307ecc"}
+              />
+          
+              </View>
+          
+            </Modal>
+          )
            }
 
    
@@ -1748,24 +1829,54 @@ return(
       }
     
 
-      let height= GVs.api<29?300:360;
+      let height1= null;
+      let height2= null;
+      let height3= null;
 
-      if(item.submit==true&& item.result==false){
-        height=height-30
+      if(item.submit==true && item.result==false){
+        height1= Window.Height>710?"33%":"37%"
+      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
+        height1= Window.Height>710?"33%":"37%"
+      }else{
+        height1= Window.Height>710?"30%":"34%"
+      }
+
+
+      if(item.submit==true && item.result==false){
+        height2= Window.Height>710?"50%":"41%"
+      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
+        height2= Window.Height>710?"59%":"46%"
+      }else{
+        height2= Window.Height>710?"61%":"52%"
       }
       
 
+      if(item.submit==true && item.result==false){
+        height3=Window.Height>710?"17%":"18%"
+      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
+        height3= Window.Height>710?"8%":"13%"
+      }else{
+        height3= Window.Height>710?"9%":"10%"
+      }
+      
+
+
         return(
-          <View style={{flex:1,backgroundColor:GV.containerBackgroundColor}}>      
+          <View style={{flex:1,backgroundColor:"white"}}>  
+
     <utils.Loader loader={loader} />
+    {loderTimer()}
+
     <ScrollView>
      
+     <View style={{height:hp(height1)}}>
     <View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
     <utils.Header  nav={props.navigation} type="stack"  />
     {renderTimer()}
     </View>
+  
     
-       <View style={{padding:7,margin:7}}>     
+    <View style={{padding:7,margin:7}}>     
        <View style={{marginLeft:5}}> 
        <utils.HeaderTitle   message={item.name}  title="Submit Your Task" color={"#15756c"}  type="headertitle" />
        </View>
@@ -1807,24 +1918,26 @@ return(
        </View>
      
      
+       </View>    
           
-           { vv &&  renderFeedbackModal(item.feedback)}
            {mv && renderFullImage()}
-
-           <View style={{height:height,borderColor:color,borderWidth:0.5,width:Window.Width-40,alignSelf:"center",borderRadius:4}}>
+           
+           <View style={{height:hp(height2),borderColor:color,borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4}}>
            <ScrollView showsVerticalScrollIndicator={false}>
            {rqr=="text" && renderTextOption()}
            {rqr=="photo" && renderPhotoOption()}
            {rqr=="audio" && renderAudioOption()} 
            {rqr=="video" && renderVideoOption()}
            </ScrollView>
-          {renderCheckLimit(l)}
+           {renderCheckLimit(l)}
            </View>
-           
         
-     
+         
+           {renderSubmitButton(item.feedback,height3)}
+
            </ScrollView>
-           {renderSubmitButton()}
+         
+         
 
     </View>
         )

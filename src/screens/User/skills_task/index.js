@@ -40,13 +40,13 @@ export default  inject("store")(observer(Skills_Task));
    
   const {indexs,from,sid}=props.route.params;
   const {skill,addNewTaskInSkill,changeSkillName} = props.store;
-  const item =  skill[indexs].e || ""
+  const item =  (skill!=="" || skill.length>0 ) ? skill[indexs].e : []
   const [loader,setloader]=useState(true);
   const [cat,setcat]= useState("all");
   const [tt,settt]= useState(0);
 
   const scrollY= useRef(new Animated.Value(0)).current;  //skills
- 
+  const modal = useRef(); 
  
   useEffect(()=>{
 setTimeout(() => {
@@ -112,7 +112,7 @@ setTimeout(() => {
         inputRange :[
           -1,0,
           GV.cardHeight * index,
-          GV.cardHeight * (index+2)
+          GV.cardHeight * (index+4)
         ]
         ,  
         outputRange:[1, 1, 1, 0]
@@ -122,7 +122,7 @@ setTimeout(() => {
         inputRange :[
           -1,0,
           GV.cardHeight * index,
-          GV.cardHeight * (index+2)
+          GV.cardHeight * (index+4)
         ]
         ,  
         outputRange:[1, 1, 1, 0]
@@ -159,7 +159,7 @@ setTimeout(() => {
      if(cat=="all"){chk=true}
 
 
-        if(cat=="pending"?item.submit==true && item.result==null
+      if(cat=="pending"?item.submit==true && item.result==null
         :cat=="not submitted"?item.submit==false && item.result==null
         :cat=="approved"?item.submit==true && item.result==true
         :cat=="rejected"?item.submit==true && item.result==false
@@ -214,22 +214,27 @@ setTimeout(() => {
 
   const catg=()=>{
     return(
-      <View style={{flexDirection:"row",alignItems:"center"}}>
-        <utils.vectorIcon.AntDesign name="filter" color={"#9B9B9B"} size={24} />
+       <View style={{flexDirection:"row",alignItems:"center"}} >
+
+   
+    <utils.vectorIcon.AntDesign name="filter" color={"#9B9B9B"}  size={25} onPress={()=>{modal.current.open()}} />
     <ModalSelector
   animationType="slide"
+  ref={modal}
+  backdropPressToClose={true}
   data={filterData}
   scrollViewAccessible={true}
   sectionTextStyle={{fontSize:20,color:"black",fontFamily:GVs.fontMedium}} 
   cancelTextStyle={{fontSize:20,color:"black",fontFamily:GVs.fontMedium}}
   initValue={cat} 
+  openButtonContainerAccessible={true}
   selectStyle={{borderColor:"white",height:40,alignItems:"center"}}
   optionContainerStyle={{backgroundColor:"white",borderRadius:15,width:250,alignSelf:"center"}}
   optionTextStyle={{color:"black"}}
-  initValueTextStyle={{color:"#9B9B9B",fontSize:16,fontFamily:GVs.fontMedium,textTransform:"capitalize",alignSelf:"center"}}
-  backdropPressToClose={true}
+  initValueTextStyle={{color:"#9B9B9B",fontSize:15,fontFamily:GVs.fontMedium,textTransform:"capitalize",alignSelf:"center"}}
   cancelStyle={{backgroundColor:"white",borderRadius:15,width:250,alignSelf:"center"}}
   onChange={(option)=>{setcat(option.label)}} />
+ 
 </View>
  
   )
@@ -258,12 +263,14 @@ setTimeout(() => {
                 
 <Progress.Bar animated={true} color={GV.progressFillColor} style={styles.skillProgress} progress={item.progress} height={6} width={Window.Width-30} />
  
- <View style={{marginTop:40,position:"absolute",right:0}}>
-{catg()}
- </View>
+ 
+   <TouchableOpacity style={{marginTop:10,alignSelf:"flex-end"}}   onPress={()=>{modal.current.open()}}>
+   {catg()}
+   </TouchableOpacity>
+ 
 
  
-<Text style={{marginTop:20,color:"#9B9B9B",fontSize:12,fontFamily:GVs.fontMedium}}>{tt==0?"No":tt} {tt==1?"record":"records"} found</Text>
+<Text style={{ position:"absolute",top:65,color:"#9B9B9B",fontSize:12,fontFamily:GVs.fontMedium}}>{tt==0?"No":tt} {tt==1?"record":"records"} found</Text>
 
 </View> 
    </View>

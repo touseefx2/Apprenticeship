@@ -46,7 +46,7 @@ props.navigation.navigate("Skills",{skillIndex:index,from:"students"})
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+2)
+            GV.cardHeight * (index+4)
           ]
           ,  
           outputRange:[1, 1, 1, 0]
@@ -56,7 +56,7 @@ props.navigation.navigate("Skills",{skillIndex:index,from:"students"})
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+2)
+            GV.cardHeight * (index+4)
           ]
           ,  
           outputRange:[1, 1, 1, 0]

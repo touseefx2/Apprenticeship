@@ -1,7 +1,7 @@
 import {StyleSheet} from "react-native";
 import GV from "./Global_Var";
 import {Window}  from "../../../themes/Window/index";
- 
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   container:{ flex: 1,backgroundColor:GV.containerBackgroundColor},
@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
    {
     borderRadius:5,
     flexDirection:"row",
-    backgroundColor:null,
     alignItems:"center",
   },
 
@@ -57,7 +56,7 @@ taskBox:
       borderRadius:10,
     },
 
-    button1: {width:Window.Width-40,alignItems:"center",justifyContent:"center",borderRadius:4,height:45 },
+    button1: {width:wp("90%"),alignItems:"center",justifyContent:"center",borderRadius:4,height:45},
   
     button1Text:{fontWeight:"bold",fontSize:GV.button1FontSize,width:Window.Width-60}
   });

@@ -4311,6 +4311,18 @@ const skills=[
                data:[{name:"Video1.mp4",uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/v1.mp4?alt=media&token=06bd0b04-2b23-4a76-ae29-29b5b9adbefa",play:false,pause:false},{name:"Video2.mp4",uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/v2.mp4?alt=media&token=59b93431-6b58-4a11-a804-1ffc756cb41e",play:false,pause:false}]
             },
             {
+               name:"Animated UI",
+               hours:"2",
+               minutes:"",
+               require:"Audio",
+               submit:true,
+               result:null,
+               createdAt:"2021-08-17T10:29:15.153Z",  
+               feedback:"Your design is not responsive",
+               work:[{"D": "2021-08-17T10:29:15.153Z", "E": "2021-08-17T10:29:46.582Z", "hours": 620000, "latitude": 33.6423605, "longitude": 72.9833085}],
+               data:[{uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/WhatsApp%20Audio%202021-08-06%20at%204.35.18%20PM.mpeg?alt=media&token=a21e44a7-2714-418a-ad6d-1106e535437d",name:"Saiyan.mpeg",play:false,pause:false},{uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/WhatsApp%20Audio%202021-08-06%20at%204.35.18%20PM.mpeg?alt=media&token=a21e44a7-2714-418a-ad6d-1106e535437d",name:"QaraRasha.mpeg",play:false,pause:false}]
+            },
+            {
                name:"Create Calender UI",
                hours:"2",
                minutes:"",

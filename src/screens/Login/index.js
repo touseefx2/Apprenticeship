@@ -1,6 +1,6 @@
 import React   from "react";
 import {Button} from 'react-native-paper';
-import { View,TouchableOpacity,Keyboard,Image,KeyboardAvoidingView} from "react-native";
+import { View,TouchableOpacity,Keyboard,Image,KeyboardAvoidingView, ScrollView} from "react-native";
 import { Container, Content, Item, Input ,Text } from 'native-base';
 import NetInfo from "@react-native-community/netinfo";
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -8,7 +8,14 @@ import utils from "../../utils/index"
 import GV from "./Global_Var"
 import {styles} from "./styles";
 import GVs from "../../store/Global_Var";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Window } from "../../themes/Window";
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
+ 
   
 //Validation 
 let emailValidate=true
@@ -238,19 +245,19 @@ renderLogin()
   passwordInputFieldborderColor} = this.state;
   
   return(
-    
+    <View  style={{height:responsiveHeight( Window.Height>710?90:85)}}>
+
+
     <View style={{padding:10,margin:10}}>
 
-    <View>
+        <View>
           <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
           <utils.vectorIcon.Ionicons name="arrow-back" color="black" size={30} />
           </TouchableOpacity>
 <Text style={styles.title1}>Login to your account</Text>
 <Text style={styles.title2}>Enter your username and password to login into your account.</Text>
-          </View>
+      </View>
 
-
- {/* Input Fields */}
  
         <View  style={styles.inputContainer}>
  
@@ -279,18 +286,22 @@ renderLogin()
 
 </View>
    
-
-
+ 
 </View>
  
- 
+</View> 
   )
 }
 
 renderButton(){
   const { email,password,isInternetConnected} = this.state;
-    return(
-        <View style={{ alignSelf:"center",bottom:15,position:"absolute"}}>
+    let style=null;
+
+    
+      style={alignSelf:"center",height:responsiveHeight(Window.Height>710?10:15)}
+     
+  return(
+ <View style={style}>
 <Button   compact={true} dark={false}   mode="contained" labelStyle={styles.button1Text} color="#007069" style={styles.button1}  onPress={()=>{this.LoginClick(email,password,isInternetConnected)}}>
 Continue  
 </Button>
@@ -304,11 +315,12 @@ Continue
       const  {isInternetConnected,loader} = this.state;
  
       return (
-        <View style={styles.container}>      
+        <View style={styles.container}>  
+          
          <utils.Loader loader={loader} />
           {this.renderLogin()}
-          {!isInternetConnected && this.renderShowInternetErrorAlert("No internet connection","Please connect internet.")}
-          {this.renderButton()}  
+          {!isInternetConnected && this.renderShowInternetErrorAlert("No internet connection","Please connect internet.")} 
+          {this.renderButton()} 
         </View>
 
       )

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">97659728334-jpfk1mkev8ha81l2vaetnf2rrabd7qer.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">97659728334</string>
+    <string name="google_api_key" translatable="false">AIzaSyC8Ws7qz30TgeBYdqDZam5O_knA7OwluVg</string>
+    <string name="google_app_id" translatable="false">1:97659728334:android:8584802153b32174f0fb9f</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyC8Ws7qz30TgeBYdqDZam5O_knA7OwluVg</string>
+    <string name="google_storage_bucket" translatable="false">apprenticeship-33975.appspot.com</string>
+    <string name="project_id" translatable="false">apprenticeship-33975</string>
+</resources>

@@ -23,7 +23,7 @@ export default  inject("store")(observer(Header));
 
     return(
 
-<View style={{backgroundColor:null,width:60}}>
+<View style={{width:60}}>
 <utils.vectorIcon.Ionicons  name="arrow-back-outline" size={40} color="black" onPress={()=>{
 if(room.length>1){
   setRoomSort();
@@ -43,7 +43,7 @@ if(room.length>1){
    } 
     else {
     return(
-      <View style={{flexDirection:"row",backgroundColor:null,alignItems:"center"}}>
+      <View style={{flexDirection:"row",alignItems:"center"}}>
       
       <utils.vectorIcon.Ionicons  name="md-menu" size={40} color="#007069" onPress={()=>props.nav.openDrawer()} />
       

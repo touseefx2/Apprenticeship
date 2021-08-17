@@ -14,10 +14,9 @@ import VideoPlayer from 'react-native-video-controls';
 import { inject, observer } from "mobx-react"; 
 import moment from "moment";
 import OpenFile from 'react-native-doc-viewer';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
  
-let photoTypes="image"
-let videoTypes="video"
-
+ 
   function  Skills_Task_Submit  (props) {
   
   const {skillIndex,taskIndex,indexs,from}=props.route.params;
@@ -423,15 +422,12 @@ const getFileExt=(filename)=>{
   return filename.substring(filename.lastIndexOf("."));
 }
    
- const renderSubmitButton=()=>{
+ const renderSubmitButton=(height3)=>{
    
-    let style=null;
+  let style=null
+  
+  style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
 
-    if(arrowdown){
-      style={alignSelf:"center",marginBottom:15}
-    }else{
-     style={alignSelf:"center",bottom:15,position:"absolute"}
-    }
     
    return(
 <View style={style}>
@@ -459,22 +455,25 @@ Reject
    )
   } 
 
-  const renderfdbSubmitButton=()=>{
+  const renderfdbSubmitButton=(t,height3)=>{
    
-    let style=null;
-
-    if(arrowdown){
-      style={alignSelf:"center",marginBottom:15}
-    }else{
-     style={alignSelf:"center",bottom:15,position:"absolute"}
-    }
+    let style=null
+  
+    style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
+  
     
 
    return(
 <View style={style}>
 <Button  mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}      onPress={()=>{
- setvvv(true)
- 
+ Alert.alert(
+  "Feedback",
+  t,
+  [
+     
+    { text: "OK", onPress: ()=> {} }
+  ]
+);
   }}>
 View Feedback
 </Button>
@@ -570,24 +569,7 @@ View Feedback
     )
   }
 
-  const renderFeedbackModal=(t)=>{
-    
-    Alert.alert(
-      "Feedback",
-      t,
-      [
-         
-        { text: "OK", onPress: () =>   setvvv(false) }
-      ]
-    );
-  
-  
-    return(
-      null
-    )
-     
-  }
- 
+   
   const renderTextOption=()=>{
  
     let l=0;
@@ -613,7 +595,7 @@ View Feedback
  
 {( (item.data.length>0 )) && (
        
-       <View style={{height:item.data.length>2+l?185:null,borderColor:item.data.length>2+l?"red":"black",borderWidth:1,padding:5,marginTop:25,borderRadius:10,justifyContent:"center",alignItems:"center"}}>
+        
            <FlatList
            numColumns={1}
            data={item.data}
@@ -623,14 +605,14 @@ View Feedback
            keyExtractor={(item, index) => { return index.toString() }}
            showsVerticalScrollIndicator={true}
          />
-       </View>
+      
     )}   
  
  
 <View   onPress={()=>setarrowdown(!arrowdown)} style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10}}>
 
   
-<View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:10}}>
+<View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:5}}>
 <Text style={{color:"#007069",fontSize:15}}>Text</Text>
 <TouchableOpacity     onPress={()=>setarrowdown(!arrowdown)} > 
 <utils.vectorIcon.AntDesign name={!arrowdown?"arrowdown":"arrowup"} size={20}  color="#007069" />
@@ -640,7 +622,7 @@ View Feedback
 {arrowdown &&(
   <View>
     {(dt!="")?(
-      <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:300}}> 
+      <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:270}}> 
 <Text style={{  fontSize: 15, color: 'white'}}>
 {dt}
 </Text>
@@ -679,8 +661,7 @@ View Feedback
 
   {(item.data.length>0) && (
      
-     <View style={{height:item.data.length>0>3?220:null,borderColor:item.data.length>10?"red":"black",flexWrap:"wrap",borderWidth:1,marginTop:25,borderRadius:10,justifyContent:"center",alignItems:"center"}}>
-         <FlatList
+          <FlatList
          numColumns={3}
          data={item.data}
         //  extraData={FlatListR} //true/fasle
@@ -688,7 +669,7 @@ View Feedback
          keyExtractor={(item, index) => { return index.toString() }}
          showsVerticalScrollIndicator={true}
        />
-     </View>
+    
   )}   
   
  
@@ -707,8 +688,7 @@ View Feedback
      
     {(item.data.length>0) && (
        
-       <View style={{height:item.data.length>2?185:null,borderColor: item.data.length>2?"red":"black",borderWidth:1,padding:5,marginTop:25,borderRadius:10,justifyContent:"center",alignItems:"center"}}>
-           <FlatList
+            <FlatList
            numColumns={1}
            data={ item.data }
            style={{marginTop:10}}
@@ -717,7 +697,7 @@ View Feedback
            keyExtractor={(item, index) => { return index.toString() }}
            showsVerticalScrollIndicator={true}
          />
-       </View>
+ 
     )}   
     
    
@@ -733,8 +713,7 @@ View Feedback
     
       {( item.data.length>0) && (
          
-         <View style={{height:item.data.length>2?185:null,borderColor:item.data.length>2?"red":"black",borderWidth:1,padding:10,marginTop:25,borderRadius:10,justifyContent:"center",alignItems:"center"}}>
-             <FlatList
+              <FlatList
              numColumns={1}
              data={item.data}
              scrollEnabled={true}
@@ -743,7 +722,7 @@ View Feedback
              keyExtractor={(item, index) => { return index.toString() }}
              showsVerticalScrollIndicator={false}
            />
-         </View>
+      
       )}   
       
     
@@ -810,12 +789,12 @@ return(
       const i =  allSkills[indexs].s[skillIndex].task[taskIndex]
 
         return(
-        <View style={[styles.taskBox,{marginTop:15,marginBottom:15,alignItems:"center"}]} >
+          <View style={[styles.taskBox,{marginTop:15,marginBottom:15,alignItems:"center"}]} >
          
-  <View style={{flexDirection:"row",alignItems:"center",alignSelf:"center",flex:1}}>
-
-<View style={{backgroundColor:"#dbdbdb",borderRadius:10,padding:7,flexDirection:"row",alignItems:"center",width:200}} >
-
+          <View style={{flexDirection:"row",alignItems:"center",alignSelf:"center",flex:1}}>
+        
+        <View style={{backgroundColor:"#dbdbdb",borderRadius:10,padding:7,flexDirection:"row",alignItems:"center",width:200}} >
+        
 
  
 <utils.vectorIcon.FontAwesome size={26} color="green"   name="music" />
@@ -898,10 +877,10 @@ return(
            const i = allSkills[indexs].s[skillIndex].task[taskIndex]
   
               return(
-   <View style={[styles.taskBox,{marginTop:15,marginBottom:15,alignItems:"center"}]} >
+                <View style={[styles.taskBox,{marginTop:index==0?10:0,marginBottom:10,alignItems:"center"}]} >
                
-    <View style={{flex:1,flexDirection:"row",alignItems:"center"}}> 
-  
+                <View style={{flex:1,flexDirection:"row",alignItems:"center"}}> 
+              
   <TouchableOpacity onPress={()=>{
 
 OpenFile.openDoc([{
@@ -939,7 +918,7 @@ OpenFile.openDoc([{
 
             return(
   
-    <View style={{width:240,height:165}}>
+              <View style={{width:250,height:200}}>
   
       <VideoPlayer
   source={{uri:uri}}
@@ -979,7 +958,7 @@ OpenFile.openDoc([{
             return(
          
 
-      <View style={{flexDirection:"row",alignItems:"center",alignSelf:"center",marginTop:index==0?null:10}}>
+              <View style={{flexDirection:"row",alignItems:"center",alignSelf:"center",marginTop:index==0?30:15}}>
     
   {!play && (
  <TouchableOpacity onPress={()=>{dynamicVideoChecks(index)}}>
@@ -1038,11 +1017,40 @@ OpenFile.openDoc([{
              item.submit&&item.result==false?"Rejected" :
              item.submit&&item.result==null?"Pending" :""
 
+
+             let height1= null;
+             let height2= null;
+             let height3= null;
+       
+             if((item.submit==true && item.result==true) || (item.submit==true && item.result==false) ){
+               height1="37%"
+             }else{ 
+               height1="37%"
+             } 
+       
+
+             if((item.submit==true && item.result==true   || (item.submit==true && item.result==false)) ){
+              height2="50%"
+            }else {
+              height2="42%"
+            } 
+        
+             
+       
+            if((item.submit==true && item.result==true) ||   (item.submit==true && item.result==false) ){
+              height3="9%"
+            }else{ 
+              height3="17%"
+            } 
+      
+            
+
         return(
-          <View style={{flex:1,backgroundColor:GV.containerBackgroundColor}}>      
+    <View style={{flex:1,backgroundColor:GV.containerBackgroundColor}}>      
     <utils.Loader loader={loader} />
     <ScrollView>
-     
+
+    <View style={{height:hp(height1)}}>
     <View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
     <utils.Header  nav={props.navigation} type="stack"  />
     </View>
@@ -1088,26 +1096,28 @@ OpenFile.openDoc([{
        </View>
        </View>
      
-     
+       </View>
 
-           {vv && renderRejectSubmitModal()}
-           {vvv && renderFeedbackModal(item.feedback)}
-           {mv && renderFullImage()}
-           {rqr=="text" && renderTextOption()}
+        {mv && renderFullImage()}
+        {vv && renderRejectSubmitModal()}
+
+       <View style={{height:hp(height2),borderColor:"green",borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4}}>
+           <ScrollView showsVerticalScrollIndicator={false}>
+           {rqr=="text"  && renderTextOption()}
            {rqr=="photo" && renderPhotoOption()}
            {rqr=="audio" && renderAudioOption()} 
-           {rqr=="video" && renderVideoOption()} 
-          
-          {/* {(rqr=="text"&& arrowdown)   && renderSubmitButton() } */}
-          {  arrowdown && (item.submit&&item.result==null) &&  renderSubmitButton()}
-          
-          {arrowdown &&  (item.submit&&item.result==false) &&  renderfdbSubmitButton()}
+           {rqr=="video" && renderVideoOption()}
+           </ScrollView>
+         </View>
+
+
+         {(item.submit&&item.result==null) &&  renderSubmitButton(height3)}
+         {(item.submit&&item.result==false) &&  renderfdbSubmitButton(item.feedback,height3)}
+         
 
            </ScrollView>
            
-           {arrowdown==false && (item.submit&&item.result==null) &&  renderSubmitButton()}
-
-           { arrowdown==false &&(item.submit&&item.result==false) &&  renderfdbSubmitButton()}
+           
 
     </View>
         )

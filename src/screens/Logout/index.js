@@ -12,30 +12,29 @@ const [logout,setlogout]=useState(false);
 const [loader,setloader]=useState(true);
 const {setskill,setuser,setRoom,setAllSkills,setAllUsers,changeCat} = props.store;
   
-     const  logoutcall =  () => {
-         setTimeout(async () => {
+     const  logoutcall = async () => {
+        
             try {
                  await AsyncStorage.removeItem('userData')
-                  setlogout(true);setloader(false)
              } catch (e) {       
                console.log("logout error remove async storage  : ", e)
              }
-         }, (500));   
+             setloader(false)
       }
 
 useEffect(()=>{
-logoutcall();
-},[])
+  
+  setTimeout(() => {
+    setlogout(true)
+  }, 300);
 
+})
+
+ 
 useEffect(()=>{
    if(logout==true){
    props.navigation.replace("Login_Stack")
-   setuser("") 
-   setRoom([]) 
-   setskill([]) 
-   setAllSkills([])
-   setAllUsers([])
-   changeCat("skills")
+   logoutcall();
    } 
 },[logout])
   

@@ -1,9 +1,9 @@
 import React from "react";
 import {Image} from 'react-native';
- 
 
- const homeIcon = {
-  drawerLabel: 'Home',
+ 
+ const homeIcon= {
+drawerLabel: 'Home',
 headerShown: false,
   drawerIcon: ({ focused, size }) => (
          
@@ -32,7 +32,6 @@ drawerIcon: ({ focused, size }) => (
 }
 
 const skillIcon = {
- 
   headerShown: false,
   title:"Categories",
   drawerIcon: ({ focused, size }) => (

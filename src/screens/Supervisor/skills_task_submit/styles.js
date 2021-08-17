@@ -40,8 +40,8 @@ alignSelf:"center"
   
 taskBox:
 {
- marginLeft:9,
- marginRight:9,
+ marginLeft:5,
+ marginRight:5,
 } ,
 
      textareaContainer: {

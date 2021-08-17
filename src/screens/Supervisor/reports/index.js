@@ -341,7 +341,7 @@ Close
     ];
 
 
-   
+    if(val!="all"){
     return(
       <View style={{marginBottom:20}}>
 {skill.length>0?(
@@ -417,6 +417,9 @@ InComplete Skills :
  
 </View> 
     )
+}else{
+ return <Text style={{fontSize:18,color:"silver",marginTop:"40%",alignSelf:"center"}} >Please select any student</Text>
+}
 
   }
 
@@ -657,6 +660,8 @@ console.log("th : ",th)
  
 }
 
+if(val!="all"){
+ 
     return(
       <View>
 
@@ -709,60 +714,71 @@ console.log("th : ",th)
     )}  
 
     {chk==false && (
-      <Text style={{alignSelf:"center",fontSize:20,marginTop:"30%",color:"#686868"}}>Empty</Text>
+      <Text style={{alignSelf:"center",fontSize:16,marginTop:"30%",color:"silver"}}>No data found btw these days</Text>
     )} 
 
 </View>
     )
+}else
+{
+ return  <Text style={{fontSize:18,color:"silver",marginTop:"30%",alignSelf:"center"}} >Please select any student</Text>
+}
   }
 
   const renderWeekBar=()=>{
-    return(
-      <View>
-      <VerticalBarGraph
-  data={[42,48,35,48]}
-  labels={['Week 1', 'Week 2', 'Week 3', 'Week 4']}
-  width={Window.Width-30}
-  height={220}
-  barRadius={5}
-  barWidthPercentage={0.55}
-  barColor='#007069'
-  baseConfig={{
-    hasXAxisBackgroundLines: false,
-    xAxisLabelStyle: {
-      position: 'left',
-      prefix: '',
-      fontSize:14
-    },
-    yAxisLabelStyle: {
-      fontSize:14
-    }
-  }}
-  style={{
-    marginBottom: 20,
-    padding: 5,
-    marginTop:20,
-    margin:5,
-    alignSelf:"center",
-    paddingTop: 20,
-    borderRadius: 20,
-    backgroundColor: `#ebebeb`,
-    width: Window.Width - 20
-  }}
-/>
 
- 
-<View>
-<Text style={{fontSize:14,alignSelf:"center",color:"#999999"}}>
-  Total num Of working hours in a week : {numOfHourseWorkWeek}
-</Text>
-</View>
-
-</View>
-    )
+    if(val!=="all"){
+      return(
+        <View>
+        <VerticalBarGraph
+    data={[42,48,35,48]}
+    labels={['Week 1', 'Week 2', 'Week 3', 'Week 4']}
+    width={Window.Width-30}
+    height={220}
+    barRadius={5}
+    barWidthPercentage={0.55}
+    barColor='#007069'
+    baseConfig={{
+      hasXAxisBackgroundLines: false,
+      xAxisLabelStyle: {
+        position: 'left',
+        prefix: '',
+        fontSize:14
+      },
+      yAxisLabelStyle: {
+        fontSize:14
+      }
+    }}
+    style={{
+      marginBottom: 20,
+      padding: 5,
+      marginTop:20,
+      margin:5,
+      alignSelf:"center",
+      paddingTop: 20,
+      borderRadius: 20,
+      backgroundColor: `#ebebeb`,
+      width: Window.Width - 20
+    }}
+  />
+  
+   
+  <View>
+  <Text style={{fontSize:14,alignSelf:"center",color:"#999999"}}>
+    Total num Of working hours in a week : {numOfHourseWorkWeek}
+  </Text>
+  </View>
+  
+  </View>
+      )
+    }else{
+ return <Text style={{fontSize:18,color:"silver",marginTop:"40%",alignSelf:"center"}} >Please select any student</Text>
+}
+    
   }
 
   const renderMonthBar=()=>{
+    if(val!=="all"){
     return(
       <View>
      <VerticalBarGraph
@@ -809,6 +825,9 @@ console.log("th : ",th)
       </View>
 
     )
+  }else{
+    return <Text style={{fontSize:18,color:"silver",marginTop:"40%",alignSelf:"center"}} >Please select any student</Text>
+   }
   }
  
   const renderReports=()=>{
@@ -853,14 +872,17 @@ searchableError={() => <Text>Not Found</Text>}
   dropDownStyle={{backgroundColor: '#fafafa'}}
 /> 
 
-<TouchableOpacity onPress={()=>{setstd(null)}}  
+{val!="all" &&(
+  <TouchableOpacity onPress={()=>{setstd(null)}}  
  style={{position:"absolute",right:10,top:10}}
 >
   <Text style={{color:"black",fontSize:14,textDecorationLine:"underline"}}>Clear</Text>
 </TouchableOpacity>
+)}
       </View>
     )
   }
+
 
   return (
       <View style={styles.container}> 

@@ -40,7 +40,7 @@ props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+2)
+            GV.cardHeight * (index+4)
           ]
           ,  
           outputRange:[1, 1, 1, 0]
@@ -50,7 +50,7 @@ props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+2)
+            GV.cardHeight * (index+4)
           ]
           ,  
           outputRange:[1, 1, 1, 0]

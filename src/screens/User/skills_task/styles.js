@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
    skillTaskBox:
    {
       flex:1,
-      marginTop:10,
+      marginTop:0,
       backgroundColor:"white",
       padding:5,
   },

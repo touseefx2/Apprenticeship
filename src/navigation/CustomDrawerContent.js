@@ -1,12 +1,18 @@
 import React  from "react"
-import { View,Text,Image,StyleSheet,TouchableOpacity} from "react-native";
+import { View,Text,Image,StyleSheet,TouchableOpacity, ScrollView} from "react-native";
 import { DrawerContentScrollView,DrawerItemList} from '@react-navigation/drawer';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
+import { Window } from "../themes/Window";
  
+
 export default   function CustomDrawerContent (props) { 
  
- 
- 
-const { state, ...rest } = props;
+const { state,...rest } = props;
 
 const newState = { ...state}  //copy from state before applying any filter. do not change original state
 newState.routes = newState.routes.filter(item => (item.name !== 'Logout' && item.name !=="Rate" && item.name !=="Notification")) //replace "Login' with your route name
@@ -14,10 +20,12 @@ newState.routes = newState.routes.filter(item => (item.name !== 'Logout' && item
  
 
     return(  
-      <View   style={{flex:1}} >
-        <DrawerContentScrollView 
+      <View   style={{flex:1,backgroundColor:"#007069"}} >
+
+<View style={{height:responsiveHeight( Window.Height>710?95:90)}}>
+  <DrawerContentScrollView 
         showsVerticalScrollIndicator={false}
-        style={{backgroundColor:"#007069",padding:10}} >
+        style={{padding:10}} >
     
 
 
@@ -26,13 +34,13 @@ newState.routes = newState.routes.filter(item => (item.name !== 'Logout' && item
 <Text style={{fontSize:12,color:"white",marginLeft:15,marginTop:"12%"}}>DASHBOARD</Text>
 
 
-<View style={{marginTop:"5%"}}>
+<View style={{marginTop:"6%"}}>
 
  
-<View  style={{width:"90%",height:0.5,backgroundColor:"white",marginBottom:10,alignSelf:"center"}} />
-     
+<View  style={{width:"90%",height:0.5,backgroundColor:"white",alignSelf:"center"}} />
+    
      <DrawerItemList   state={newState} {...rest} />
-
+     
       
     <Text style={{fontSize:12,color:"white",marginTop:20,marginLeft:15}}>COMPANY</Text>
  
@@ -51,7 +59,7 @@ newState.routes = newState.routes.filter(item => (item.name !== 'Logout' && item
                         </TouchableOpacity>
 
                         <TouchableOpacity 
-                            style={styles.drawerItem} 
+                            style={[styles.drawerItem,{marginBottom:10}]} 
                             onPress={() => { props.navigation.navigate('Logout')}}>
                              <Image 
                               style={{width:22,height:22}}
@@ -63,18 +71,19 @@ newState.routes = newState.routes.filter(item => (item.name !== 'Logout' && item
   
   </View>
 
- 
   
- 
 
         </DrawerContentScrollView>
-
-        <View style={{flex:1,position:"absolute",bottom:3,width:"100%",padding:10}}>
-        <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+</View>
+      
+      
+        <View style={{ justifyContent:"center",alignItems:"center",paddingLeft:10,paddingRight:10,margin:5}}>
+         <View style={{flexDirection:"row",justifyContent:"space-between",width:"100%"}}>
         <Text style={{fontSize:12,color:"white",marginLeft:15}}>Legal</Text>
         <Text style={{fontSize:12,color:"white",marginLeft:15}}>Version 1.0</Text>
+         </View>
         </View>
-        </View>
+   
         
 
         </View>
