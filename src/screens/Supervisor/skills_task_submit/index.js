@@ -422,15 +422,12 @@ const getFileExt=(filename)=>{
   return filename.substring(filename.lastIndexOf("."));
 }
    
- const renderSubmitButton=(height3)=>{
+ const renderSubmitButton=()=>{
    
-  let style=null
-  
-  style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
-
+   
     
    return(
-<View style={style}>
+<View  style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:15}}>
 <Button  mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}      onPress={()=>{
   Alert.alert(
     "Confirmation",
@@ -455,16 +452,11 @@ Reject
    )
   } 
 
-  const renderfdbSubmitButton=(t,height3)=>{
-   
-    let style=null
-  
-    style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
-  
-    
+  const renderfdbSubmitButton=(t)=>{
+     
 
    return(
-<View style={style}>
+<View  style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:15}}>
 <Button  mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}      onPress={()=>{
  Alert.alert(
   "Feedback",
@@ -481,9 +473,7 @@ View Feedback
 </View>
    )
   } 
- 
- 
-
+  
   const renderRejectSubmitModal=()=>{
     return(
     <Modal
@@ -568,8 +558,7 @@ View Feedback
   </Modal>
     )
   }
-
-   
+ 
   const renderTextOption=()=>{
  
     let l=0;
@@ -609,7 +598,7 @@ View Feedback
     )}   
  
  
-<View   onPress={()=>setarrowdown(!arrowdown)} style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10}}>
+<View   onPress={()=>setarrowdown(!arrowdown)} style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10,width:Window.Width-40,alignSelf:"center"}}>
 
   
 <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:5}}>
@@ -620,29 +609,15 @@ View Feedback
 </View>
 
 {arrowdown &&(
-  <View>
-    {(dt!="")?(
-      <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:270}}> 
+   
+  <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:Window.Width-50}}> 
 <Text style={{  fontSize: 15, color: 'white'}}>
-{dt}
+{dt==""?"Empty":dt}
 </Text>
 </View>
 
-    ):(
-   <Textarea
-   containerStyle={styles.textareaContainer}
-   style={styles.textarea}
-   onChangeText={(t)=>settext(t)}
-   defaultValue={dt||text}
-  // maxLength={100000}
-   placeholder={dt==""?"Empty":""}
-   placeholderTextColor={'white'}
-   underlineColorAndroid={'transparent'}
- />
     )}
-   
- </View>
-)}
+  
  
 </View>
  
@@ -1018,31 +993,16 @@ OpenFile.openDoc([{
              item.submit&&item.result==null?"Pending" :""
 
 
-             let height1= null;
-             let height2= null;
-             let height3= null;
+             let height= null;
+              
        
              if((item.submit==true && item.result==true) || (item.submit==true && item.result==false) ){
-               height1="37%"
+              height= Window.Height/1.6
              }else{ 
-               height1="37%"
+              height= Window.Height/2.1
              } 
        
-
-             if((item.submit==true && item.result==true   || (item.submit==true && item.result==false)) ){
-              height2="50%"
-            }else {
-              height2="42%"
-            } 
-        
-             
-       
-            if((item.submit==true && item.result==true) ||   (item.submit==true && item.result==false) ){
-              height3="9%"
-            }else{ 
-              height3="17%"
-            } 
-      
+ 
             
 
         return(
@@ -1050,7 +1010,7 @@ OpenFile.openDoc([{
     <utils.Loader loader={loader} />
     <ScrollView>
 
-    <View style={{height:hp(height1)}}>
+ 
     <View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
     <utils.Header  nav={props.navigation} type="stack"  />
     </View>
@@ -1096,26 +1056,27 @@ OpenFile.openDoc([{
        </View>
        </View>
      
-       </View>
-
+      
         {mv && renderFullImage()}
         {vv && renderRejectSubmitModal()}
 
-       <View style={{height:hp(height2),borderColor:"green",borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4}}>
-           <ScrollView showsVerticalScrollIndicator={false}>
+       {/* <View style={{borderColor:"green",borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4,marginBottom:20}}> */}
+           {/* <ScrollView showsVerticalScrollIndicator={false}> */}
            {rqr=="text"  && renderTextOption()}
            {rqr=="photo" && renderPhotoOption()}
            {rqr=="audio" && renderAudioOption()} 
            {rqr=="video" && renderVideoOption()}
-           </ScrollView>
-         </View>
+           {/* </ScrollView> */}
+         {/* </View> */}
 
 
-         {(item.submit&&item.result==null) &&  renderSubmitButton(height3)}
-         {(item.submit&&item.result==false) &&  renderfdbSubmitButton(item.feedback,height3)}
          
+         <View style={{height:20}} />
 
            </ScrollView>
+
+        {(item.submit&&item.result==null) &&  renderSubmitButton()}
+         {(item.submit&&item.result==false) &&  renderfdbSubmitButton(item.feedback)}
            
            
 

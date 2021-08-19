@@ -16,7 +16,7 @@
     Item:{borderRadius:4,height:44,padding:5},
 
     Input:{fontSize:GV.InputFieldFontSize},
-   button1: {width:Window.Width-40, alignItems:"center",justifyContent:"center",borderRadius:4,height:45,bottom:-15},
+   button1: {width:Window.Width-40, alignItems:"center",justifyContent:"center",borderRadius:4,height:45,alignSelf:"center"},
    button1Text:{color:GV.button1TextColor,fontWeight:"bold",fontSize:GV.button1FontSize,width:Window.Width-60}
 
 

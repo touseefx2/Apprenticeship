@@ -116,7 +116,7 @@ import { inject, observer } from "mobx-react";
      
     return(
 
-      <View style={{flexDirection:"row",marginTop:10,marginLeft:15,marginRight:15,justifyContent:"space-between",marginBottom:30}}>
+      <View style={{flexDirection:"row",marginTop:10,marginBottom:20,marginLeft:15,marginRight:15}}>
  
  <TouchableOpacity onPress={()=>{props.navigation.navigate("Reports");changeCat("skills")}}>
    <View style={[styles.reportCard,{backgroundColor:"#1675bc",borderRadius:15}]} >
@@ -130,7 +130,7 @@ import { inject, observer } from "mobx-react";
       </TouchableOpacity>
 
 
-      <TouchableOpacity onPress={()=> {props.navigation.navigate("Reports");changeCat("hours")} }>
+      <TouchableOpacity  style={{marginLeft:15}} onPress={()=> {props.navigation.navigate("Reports");changeCat("hours")} }>
       <View style={[styles.reportCard,{backgroundColor:"#39b54b",borderRadius:15}]} >
       
       <Text style={{color:"white",fontSize:20,fontFamily:GVs.fontMedium,textTransform:"capitalize",flexShrink:1}}>Hours</Text>
@@ -239,7 +239,10 @@ return(
 <View style={{marginLeft:20,marginRight:20,marginBottom:10,flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginTop:25}}>
 <Text style={{color:"black",fontSize:20,fontFamily:GVs.fontMedium}}>Reports</Text>
 </View>
+
+<ScrollView     horizontal={true} showsHorizontalScrollIndicator={false}   >
     {renderReportCard()}
+</ScrollView>  
 </View>
     )
  }

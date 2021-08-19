@@ -53,7 +53,8 @@ export default  inject("store")(observer(Reports));
   const { catg,changeCat,allUsers,allSkills,addAllUsers } = props.store;
 
   const  skill=allSkills
-  
+
+ 
  
   const [std,setstd]= useState("");
   const [val,setval]= useState("all");
@@ -354,7 +355,7 @@ Close
   accessor={"number"}
   hasLegend={true}
   backgroundColor={"transparent"}
-  center={[0, -20]}
+  center={[10, -20]}
   absolute
 />
 ):(
@@ -802,7 +803,7 @@ if(val!="all"){
       // suffix:""
     },
     yAxisLabelStyle: {
-     fontSize:11,
+     fontSize:9,
     }
   
   }}
@@ -900,7 +901,7 @@ searchableError={() => <Text>Not Found</Text>}
  {renderDropDown()}
  </View>
 
-<ScrollView>
+<ScrollView showsVerticalScrollIndicator={false}>
  {catg=="skills"&&renderSkills()}
  {catg=="hours"&&renderReports()}
  </ScrollView>

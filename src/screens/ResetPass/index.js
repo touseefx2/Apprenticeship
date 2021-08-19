@@ -1,6 +1,6 @@
 import React  from 'react';
-import { View,TouchableOpacity,Keyboard} from "react-native";
-import {Button, Appbar} from 'react-native-paper';
+import { View,TouchableOpacity,Keyboard,ScrollView,KeyboardAvoidingView} from "react-native";
+import {Button} from 'react-native-paper';
 import { Item, Input ,Text } from 'native-base';
 import utils from "../../utils/index"
 import GV from "./Gloabal_Var"
@@ -167,12 +167,16 @@ return(
       <View style={{flex:1,backgroundColor:  GV.containerBackgroundColor }}>
 
   {!isInternetConnected && this.renderShowInternetErrorAlert("No internet connection","Please connect internet.")}
-    
+  <utils.Loader loader={load} />    
+
+  <KeyboardAvoidingView
+    keyboardVerticalOffset={Platform.OS == "ios" ? 10 : 0}
+    behavior={Platform.OS == "ios" ? "padding" : ""} style={{ flex: 1 }} >
+
+<ScrollView> 
     <View style={{padding:10,margin:10}}>
 
-      
-   
-    
+       
            <View>
           <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
           <utils.vectorIcon.Ionicons name="arrow-back" color="black" size={30} />
@@ -197,12 +201,16 @@ return(
 
      </View>
 
-              <utils.Loader loader={load} />        
-       
-  <Button   mode="contained" labelStyle={styles.button1Text} color="#007069" style={styles.button1} onPress={()=>{this.click(em,isInternetConnected),Keyboard.dismiss()}}>
+     </ScrollView>
+                
+     </KeyboardAvoidingView>
+      
+
+ <View style={{ justifyContent: 'flex-end',marginBottom: 15}}>   
+<Button   mode="contained" labelStyle={styles.button1Text} color="#007069" style={styles.button1} onPress={()=>{this.click(em,isInternetConnected),Keyboard.dismiss()}}>
   Recover Account
 </Button>
- 
+</View>
 
  
 

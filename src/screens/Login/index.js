@@ -1,6 +1,6 @@
 import React   from "react";
 import {Button} from 'react-native-paper';
-import { View,TouchableOpacity,Keyboard,Image,KeyboardAvoidingView, ScrollView} from "react-native";
+import { View,TouchableOpacity,Keyboard,Modal,KeyboardAvoidingView, ScrollView,Platform} from "react-native";
 import { Container, Content, Item, Input ,Text } from 'native-base';
 import NetInfo from "@react-native-community/netinfo";
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -8,14 +8,8 @@ import utils from "../../utils/index"
 import GV from "./Global_Var"
 import {styles} from "./styles";
 import GVs from "../../store/Global_Var";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { Window } from "../../themes/Window";
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
- 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
   
 //Validation 
 let emailValidate=true
@@ -239,15 +233,19 @@ return(
 )
 }
 
+_scrollToInput =(reactNode)=> {
+  // Add a 'scroll' ref to your ScrollView
+  this.scroll.props.scrollToFocusedInput(reactNode)
+}
+
 renderLogin()
 {
   const { email,password,isHidePassword,emailF,passwordF,emailV,passwordV,emailInputFieldborderColor,
   passwordInputFieldborderColor} = this.state;
   
   return(
-    <View  style={{height:responsiveHeight( Window.Height>710?90:85)}}>
-
-
+    
+   
     <View style={{padding:10,margin:10}}>
 
         <View>
@@ -259,7 +257,7 @@ renderLogin()
       </View>
 
  
-        <View  style={styles.inputContainer}>
+        <View   style={styles.inputContainer}>
  
            <Item style={[styles.Item,{borderColor: (emailF || emailV ) ? ( GV.InputFieldborderErrorColor) : emailInputFieldborderColor,backgroundColor: GV.inputItemBackgroundColor  }]} rounded>
             <Input  style={[styles.Input,{color: GV.InputFieldTextColor}]}
@@ -277,31 +275,28 @@ renderLogin()
            onPress={()=>this.setState({isHidePassword:!isHidePassword})} color="silver" size={GV.InputFieldIconSize}/>)}
             </Item>
             <utils.CheckError passwordF={passwordF} passwordV={passwordV} textColor={GV.errorTextColor} />
+ 
   
             <TouchableOpacity style={{marginTop:20,marginLeft:3}} onPress={()=>this.goToNextScreen("ForgotPassword")}>
              <Text style={{fontSize:GV.button2FontSize,color:"#007069"}}>Forgot Password?</Text>
             </TouchableOpacity>
 
-
-
+           
 </View>
-   
+
+   </View>
+  
+
  
-</View>
- 
-</View> 
   )
 }
 
 renderButton(){
   const { email,password,isInternetConnected} = this.state;
-    let style=null;
-
     
-      style={alignSelf:"center",height:responsiveHeight(Window.Height>710?10:15)}
-     
+ 
   return(
- <View style={style}>
+ <View style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:10}}>
 <Button   compact={true} dark={false}   mode="contained" labelStyle={styles.button1Text} color="#007069" style={styles.button1}  onPress={()=>{this.LoginClick(email,password,isInternetConnected)}}>
 Continue  
 </Button>
@@ -315,14 +310,28 @@ Continue
       const  {isInternetConnected,loader} = this.state;
  
       return (
-        <View style={styles.container}>  
-          
-         <utils.Loader loader={loader} />
-          {this.renderLogin()}
-          {!isInternetConnected && this.renderShowInternetErrorAlert("No internet connection","Please connect internet.")} 
-          {this.renderButton()} 
-        </View>
+        <View style={styles.container}> 
 
+         {!isInternetConnected && this.renderShowInternetErrorAlert("No internet connection","Please connect internet.")} 
+         <utils.Loader loader={loader} />
+       
+         <KeyboardAvoidingView
+    keyboardVerticalOffset={Platform.OS == "ios" ? 10 : 0}
+    behavior={Platform.OS == "ios" ? "padding" : ""} style={{ flex: 1 }} >
+
+ 
+
+<ScrollView>  
+          {this.renderLogin()} 
+</ScrollView>  
+
+          {this.renderButton()}
+  
+   </KeyboardAvoidingView>
+
+       
+          
+        </View>
       )
      }
     }

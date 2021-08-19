@@ -1,5 +1,5 @@
 import React, { Component, useEffect,useState} from "react";
-import {View,Image,Text} from "react-native";
+import {View,Image,Text, ScrollView} from "react-native";
 import {Button} from 'react-native-paper';
 import GV from "./Global_Var";
 import utils from "../../utils/index"
@@ -75,15 +75,19 @@ useEffect(()=>{
 
 <utils.Loader loader={loader} />
 
+ <ScrollView showsVerticalScrollIndicator={false}>
 <View style={styles.title}>
 <Image  style={styles.image} resizeMode="contain" source={require("../../assets/Splash_Logo/logo.png")} />
 <Text style={styles.title1}>{GV.title1}</Text>
 <Text style={styles.title2}>{GV.title2}</Text>
 </View>
+</ScrollView>
 
+<View style={{justifyContent: 'flex-end',marginBottom: 15}}>
 <Button   mode="contained" dark={true} compact={true} labelStyle={styles.button1Text} color="white" style={styles.button1} onPress={() =>goToNextScreen("Login")}>
 {GV.button1title}   
 </Button>
+</View>
  
         </View>
     );

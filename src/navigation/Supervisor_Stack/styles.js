@@ -52,6 +52,7 @@ const studentIcon = {
 
   const reportIcon = {
     headerShown: false,
+    unmountOnBlur:true,
     drawerIcon: ({ focused, size }) => (
       <Image 
       style={{width:22,height:22}}

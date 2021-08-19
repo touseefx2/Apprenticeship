@@ -2,7 +2,7 @@ import {Window}  from "../../../themes/Window/index";
 
 //colors
 const containerBackgroundColor=  "white"
-const cardWidth= 317
+const cardWidth= 317;
 const cardHeight= 89;
 const progressFillColor="#1CB703"
  

@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef} from 'react';
-import {View,Image,Text ,FlatList, TouchableOpacity,Modal,AppState,ScrollView,BackHandler,Alert,ActivityIndicator} from 'react-native';
+import {View,Image,Text ,FlatList, TouchableOpacity,Modal,AppState,ScrollView,BackHandler,Alert,ActivityIndicator,KeyboardAvoidingView} from 'react-native';
 import {Button} from 'react-native-paper';
 import utils from "../../../utils/index";
 import GVs from '../../../store/Global_Var';
@@ -1020,7 +1020,7 @@ if(typ=="stop"){
  const  emptyFields= ()=> 
 {
   if(rqr=="text"){
-    if(text=="" && document=="" ){
+    if(( (text==""  || text!=="" )&& ( document=="" || document.length>2 ) )){
       return true;
     } else{
       return false;
@@ -1150,7 +1150,7 @@ const removeVideo=(i)=>{
  
 }
 
- const renderSubmitButton=(t,height3)=>{
+ const renderSubmitButton=(t)=>{
     let c= true;
 
     if((item.result==false&& item.submit==true)){
@@ -1164,12 +1164,9 @@ const removeVideo=(i)=>{
     }
  
    
-  let style=null
-  
-    style={alignSelf:"center",height:hp(height3),alignItems:"center",justifyContent:"center"}
   
    return(
-<View style={style}>
+<View  style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:15}}>
 
 <Button  disabled={( ((item.result==null&&item.submit==false) || (item.result==false&&item.submit==true))  && !c )?false:true}    mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}    onPress={()=>{
   Alert.alert(
@@ -1260,8 +1257,12 @@ Submit
 
  
 
-<View   onPress={()=>setarrowdown(!arrowdown)} style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10}}>
+<View   style={{borderColor:"#007069",borderWidth:1,borderRadius:4,padding:3,marginTop:10,width:Window.Width-40,alignSelf:"center"}}>
 
+
+<KeyboardAvoidingView
+      keyboardVerticalOffset={Platform.OS == "ios" ? 10 : 0}
+      behavior={Platform.OS == "ios" ? "padding" : ""}  >
   
 <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",padding:5}}>
 <Text style={{color:"#007069",fontSize:15}}>Text</Text>
@@ -1271,9 +1272,10 @@ Submit
 </View>
 
 {arrowdown &&(
+     
   <View>
-    {(dt!="" ||  dt=="" &&((item.submit==true&&item.result==true)||(item.submit==true&&item.result==null)))?(
-  <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:270}}> 
+    {((dt!="" ||  dt=="") &&((item.submit==true&&item.result==true)||(item.submit==true&&item.result==null)))?(
+  <View style={{flex:1,backgroundColor:'#828282',alignSelf:"center",padding:5,width:Window.Width-50}}> 
 <Text style={{  fontSize: 15, color: 'white'}}>
 {dt==""?"Empty":dt}
 </Text>
@@ -1284,7 +1286,8 @@ Submit
    containerStyle={styles.textareaContainer}
    style={styles.textarea}
    onChangeText={(t)=>settext(t)}
-   defaultValue={dt||text}
+  
+   defaultValue={text==""?dt:text}
   // maxLength={100000}
    placeholder={(item.result==null&&item.submit==false)?"Enter Here":dt==""?"Enter Here":"Empty"}
    placeholderTextColor={'white'}
@@ -1293,13 +1296,23 @@ Submit
     )}
    
  </View>
+ 
+
 )}
+
+ </KeyboardAvoidingView>
  
 </View>
+
+
  
  
       </View>
-    )
+
+      
+    
+    
+      )
   }
 
   const renderPhotoOption=()=>{
@@ -1319,7 +1332,9 @@ Submit
 
   {(photo!="" || item.data.length>0) && (
   
+ 
          <FlatList
+         contentContainerStyle={{alignSelf:"center"}}
          numColumns={3}
          data={ item.data.length>0?item.data:photo}
         //  extraData={FlatListR} //true/fasle
@@ -1327,6 +1342,7 @@ Submit
          keyExtractor={(item, index) => { return index.toString() }}
          showsVerticalScrollIndicator={true}
        />
+  
     
   )}   
   
@@ -1455,7 +1471,7 @@ style={{backgroundColor:"black",borderRadius:25,marginLeft:35}}>
 
        const renderPhoto=({item,index})=>{
 return(
-<TouchableOpacity  onPress={()=>{setp(item.uri);setspi(index);setmv(true)}} style={[styles.taskBox,{marginTop:15,marginBottom:15}]} >
+<TouchableOpacity  onPress={()=>{setp(item.uri);setspi(index);setmv(true)}} style={[styles.taskBox,{marginTop:index<=2?25:15}]} >
 
 <Image source={{uri: item.uri}}   style={styles.photo}  />
  
@@ -1714,7 +1730,7 @@ return(
 
            const renderCheckLimit=(l)=>{
              return(
-               <View>
+               <View style={{alignSelf:"center"}}>
               {item.require=="Audio" && ((audio!=""&&audio.length>2) || (item.data.length>0 && item.data.length>2)) &&(
        
                 <Text style={{textTransform:"capitalize",color:"red",fontSize:11,marginLeft:5}}>max 2 audio Submit</Text>
@@ -1814,50 +1830,26 @@ return(
          }
         })
       }
-      let color="green"
-      if(item.require=="Photo"){
-      color= photo.length>10||item.data.length>10?"red":"green"
-      }
-      if(item.require=="Text"){
-       color=document.length>2 || item.data.length>2+r?"red":"green"
-      }
-      if(item.require=="Audio"){
-       color= audio.length>2||item.data.length>2?"red":"green"
-      }
-      if(item.require=="Video"){
-        color=video.length>2||item.data.length>2?"red":"green"
-      }
+      // let color="green"
+      // if(item.require=="Photo"){
+      // color= photo.length>10||item.data.length>10?"red":"green"
+      // }
+      // if(item.require=="Text"){
+      //  color=document.length>2 || item.data.length>2+r?"red":"green"
+      // }
+      // if(item.require=="Audio"){
+      //  color= audio.length>2||item.data.length>2?"red":"green"
+      // }
+      // if(item.require=="Video"){
+      //   color=video.length>2||item.data.length>2?"red":"green"
+      // }
     
 
-      let height1= null;
-      let height2= null;
-      let height3= null;
-
-      if(item.submit==true && item.result==false){
-        height1= Window.Height>710?"33%":"37%"
-      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
-        height1= Window.Height>710?"33%":"37%"
-      }else{
-        height1= Window.Height>710?"30%":"34%"
-      }
+    
+     
 
 
-      if(item.submit==true && item.result==false){
-        height2= Window.Height>710?"50%":"41%"
-      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
-        height2= Window.Height>710?"59%":"46%"
-      }else{
-        height2= Window.Height>710?"61%":"52%"
-      }
       
-
-      if(item.submit==true && item.result==false){
-        height3=Window.Height>710?"17%":"18%"
-      }else if((item.submit==true && item.result==null) || (item.submit==true && item.result==true) ){
-        height3= Window.Height>710?"8%":"13%"
-      }else{
-        height3= Window.Height>710?"9%":"10%"
-      }
       
 
 
@@ -1867,9 +1859,9 @@ return(
     <utils.Loader loader={loader} />
     {loderTimer()}
 
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}> 
      
-     <View style={{height:hp(height1)}}>
+      
     <View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
     <utils.Header  nav={props.navigation} type="stack"  />
     {renderTimer()}
@@ -1917,27 +1909,24 @@ return(
        </View>
        </View>
      
-     
-       </View>    
-          
+      
            {mv && renderFullImage()}
-           
-           <View style={{height:hp(height2),borderColor:color,borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4}}>
-           <ScrollView showsVerticalScrollIndicator={false}>
+           {renderCheckLimit(l)}
+           {/* <View style={{height:height,borderColor:color,borderWidth:0.5,width:wp("90%"),alignSelf:"center",borderRadius:4}}> */}
+           {/* <ScrollView  contentContainerStyle={{marginBottom:20}} showsVerticalScrollIndicator={false}> */}
            {rqr=="text" && renderTextOption()}
            {rqr=="photo" && renderPhotoOption()}
            {rqr=="audio" && renderAudioOption()} 
            {rqr=="video" && renderVideoOption()}
-           </ScrollView>
-           {renderCheckLimit(l)}
-           </View>
+           {/* </ScrollView> */}
+           
+           {/* </View> */}
         
-         
-           {renderSubmitButton(item.feedback,height3)}
-
+           <View style={{height:20}} />
+        
            </ScrollView>
          
-         
+           {renderSubmitButton(item.feedback)}
 
     </View>
         )

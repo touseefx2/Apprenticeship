@@ -391,7 +391,7 @@ Close
   accessor={"number"}
   hasLegend={true}
   backgroundColor={"transparent"}
-  center={[0, -20]}
+  center={[10, -20]}
   absolute
 />
 ):(
@@ -683,7 +683,7 @@ ms= th/3600000
     )}  
 
     {chk==false && (
-      <Text style={{alignSelf:"center",fontSize:20,marginTop:"30%",color:"#686868"}}>Empty</Text>
+      <Text style={{alignSelf:"center",fontSize:16,marginTop:"30%",color:"silver"}}>No data found btw these days</Text>
     )} 
 
 </View>
@@ -760,7 +760,7 @@ ms= th/3600000
       // suffix:""
     },
     yAxisLabelStyle: {
-     fontSize:11,
+     fontSize:9,
     }
   
   }}
@@ -814,7 +814,7 @@ ms= th/3600000
  {renderTopTab()}
  </View>
 
-<ScrollView >
+<ScrollView showsVerticalScrollIndicator={false} >
  {catg=="skills"&&renderSkills()}
  {catg=="hours"&&renderReports()}
  </ScrollView>

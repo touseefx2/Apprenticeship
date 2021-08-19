@@ -101,8 +101,8 @@
 49-->/Users/x2/Desktop/Apprenticeship/android/app/src/main/AndroidManifest.xml:28:9-41
 50            android:launchMode="singleTask"
 50-->/Users/x2/Desktop/Apprenticeship/android/app/src/main/AndroidManifest.xml:30:9-40
-51            android:windowSoftInputMode="adjustResize" >
-51-->/Users/x2/Desktop/Apprenticeship/android/app/src/main/AndroidManifest.xml:31:9-51
+51            android:windowSoftInputMode="adjustPan" >
+51-->/Users/x2/Desktop/Apprenticeship/android/app/src/main/AndroidManifest.xml:31:11-50
 52            <intent-filter>
 52-->/Users/x2/Desktop/Apprenticeship/android/app/src/main/AndroidManifest.xml:32:9-35:25
 53                <action android:name="android.intent.action.MAIN" />
