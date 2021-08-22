@@ -457,7 +457,8 @@ Reject
 
    return(
 <View  style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:15}}>
-<Button  mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}      onPress={()=>{
+<Button  mode="contained"  labelStyle={[styles.button1Text,{color:"white"}]} color={"#007069"} style={styles.button1}     
+ onPress={()=>{
  Alert.alert(
   "Feedback",
   t,
