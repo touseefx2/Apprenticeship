@@ -36,7 +36,7 @@ const renderprofile = ()=>
    let Last_Name =  user.LastName
    let name= First_Name+" "+Last_Name
    name= utils.strLength(name,"name")
-   let email= user.email 
+   var email= user.email.toLowerCase();
 
 return(
   <View style={{marginBottom:50}}>

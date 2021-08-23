@@ -77,8 +77,7 @@ let videoTypes="video"
 
     const [dms,setdms]=useState("no");
 
-  
- 
+   
    useEffect(()=>{
   
      if(play==true && pause==false){
@@ -1777,7 +1776,6 @@ return(
           )
            }
 
-   
        let hours=  item.hours || ""
        let minutes = item.minutes || ""
  

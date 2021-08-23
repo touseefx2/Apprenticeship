@@ -16,8 +16,7 @@ let emailValidate=true
 let passwordValidate=true
  
 export default  class Login extends React.Component {
-  
-  
+   
 
   constructor(props)
 {
@@ -176,7 +175,8 @@ if(checkEmptyFields)
  if(isInternetConnected)
     {
 
-     this.__logIn(email,password);
+      var e=email.toLowerCase();
+     this.__logIn(e,password);
     }
     else{
      this.setState({showAlert:true})
@@ -261,7 +261,8 @@ renderLogin()
  
            <Item style={[styles.Item,{borderColor: (emailF || emailV ) ? ( GV.InputFieldborderErrorColor) : emailInputFieldborderColor,backgroundColor: GV.inputItemBackgroundColor  }]} rounded>
             <Input  style={[styles.Input,{color: GV.InputFieldTextColor}]}
-            placeholder='E-mail' placeholderTextColor={GV.inputPlaceholderTextColor} value={email}    
+            placeholder='E-mail' placeholderTextColor={GV.inputPlaceholderTextColor} value={email}  
+            autoCapitalize = 'none'   
              onChangeText={(txt)=>this.setState({email:txt,emailF:false,emailV:false})} />
             </Item>
             <utils.CheckError emailF={emailF} emailV={emailV} textColor={GV.errorTextColor}/>           

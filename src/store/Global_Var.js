@@ -5,11 +5,13 @@
  
 let report=null;
 const chatrooms=[]
-  
- 
-
+   
 //database data
+
+
+//user data
 let users=[
+
 //user a to e
 
    {
@@ -100,7 +102,7 @@ let users=[
                         photo:require("../assets/supervisor_avatar.png"),
                         },
 
-  //sprsvr f to h   
+  //sprsvr data f to h   
    {
       FirstName:"Farah",
       LastName:"Tahir",
@@ -131,11 +133,14 @@ let users=[
             }
    ];
    
+//skills data
 const skills=[
  
 {
-   uid:129,
-   sid:666,
+   uid:129,  //user id
+   sid:666,  //supervispr id
+
+   //skill rgstr
    s:[
       {
          name:"Designer",
@@ -5614,18 +5619,17 @@ const skills=[
                feedback:"Your design is not responsive",
                work:[{"D": "2021-08-05T10:29:15.153Z", "E": "2021-08-05T10:29:46.582Z", "hours": 620000, "latitude": 33.6423605, "longitude": 72.9833085}],
                data:[{uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/WhatsApp%20Audio%202021-08-06%20at%204.35.18%20PM.mpeg?alt=media&token=a21e44a7-2714-418a-ad6d-1106e535437d",name:"Saiyan.mpeg",play:false,pause:false},{uri:"https://firebasestorage.googleapis.com/v0/b/apprenticeship-33975.appspot.com/o/WhatsApp%20Audio%202021-08-06%20at%204.35.18%20PM.mpeg?alt=media&token=a21e44a7-2714-418a-ad6d-1106e535437d",name:"QaraRasha.mpeg",play:false,pause:false}]
-            }
+            },
          ]
       }, 
    ]
 }
  
       ]
- 
-let api="";
 
- 
-      //fonts
+
+  let api="";
+  //fonts
   const fontNormal="Inter-Regular";   //global font in all app
   const fontMedium="Inter-Medium";  //for sub-titile
   const fontBold="Inter-Bold";     //for tiitle

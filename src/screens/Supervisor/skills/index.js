@@ -51,7 +51,7 @@ props.navigation.navigate("Skills_Task",{skillIndex:i,indexs:skillIndex,from:fro
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+4)
+            GV.cardHeight * (index+10)
           ]
           ,  
           outputRange:[1, 1, 1, 0]
@@ -61,7 +61,7 @@ props.navigation.navigate("Skills_Task",{skillIndex:i,indexs:skillIndex,from:fro
           inputRange :[
             -1,0,
             GV.cardHeight * index,
-            GV.cardHeight * (index+4)
+            GV.cardHeight * (index+10)
           ]
           ,  
           outputRange:[1, 1, 1, 0]
