@@ -108,26 +108,7 @@ setTimeout(() => {
      
   let task =   item.task.map((item,index,a)=>{
   
-     const scale = scrollY.interpolate({
-        inputRange :[
-          -1,0,
-          GV.cardHeight * index,
-          GV.cardHeight * (index+10)
-        ]
-        ,  
-        outputRange:[1, 1, 1, 0]
-      })
-
-      const opacity = scrollY.interpolate({
-        inputRange :[
-          -1,0,
-          GV.cardHeight * index,
-          GV.cardHeight * (index+10)
-        ]
-        ,  
-        outputRange:[1, 1, 1, 0]
-      })
-     
+   
       
      
      
@@ -168,7 +149,7 @@ setTimeout(() => {
       
           
           return(
-            <Animated.View style={{ opacity,transform:[{scale}] }} >
+            <View   >
             
             <TouchableOpacity  style={[styles.skillTaskCard,{borderRadius:20,marginTop:index==0?20:0,marginBottom:index+1==a.length? 50:20}]} 
             onPress={()=>props.navigation.navigate("Skills_Task_Submit",{taskIndex:index,skillIndex:indexs,from:from})} 
@@ -201,7 +182,7 @@ setTimeout(() => {
          
             </TouchableOpacity>
          
-            </Animated.View>
+            </View>
               )
         }
 
@@ -282,16 +263,6 @@ setTimeout(() => {
 <ScrollView   
 style={styles.skillTaskBox}
 showsVerticalScrollIndicator={false}
-onScroll={ Animated.event([
-  {
-    nativeEvent: {
-      contentOffset: {
-        y: scrollY
-      }
-    },
-  }
-])
-}
 scrollEventThrottle={1}
 >
   {item.task.length<=0 

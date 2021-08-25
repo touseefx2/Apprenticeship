@@ -47,25 +47,7 @@ props.navigation.navigate("Skills_Task",{skillIndex:i,indexs:skillIndex,from:fro
 
           let item=it
         
-       const scale = scrollY.interpolate({
-          inputRange :[
-            -1,0,
-            GV.cardHeight * index,
-            GV.cardHeight * (index+10)
-          ]
-          ,  
-          outputRange:[1, 1, 1, 0]
-        })
-  
-        const opacity = scrollY.interpolate({
-          inputRange :[
-            -1,0,
-            GV.cardHeight * index,
-            GV.cardHeight * (index+10)
-          ]
-          ,  
-          outputRange:[1, 1, 1, 0]
-        })
+   
  
        if(i>numOfColors){
            i=0
@@ -84,7 +66,7 @@ props.navigation.navigate("Skills_Task",{skillIndex:i,indexs:skillIndex,from:fro
   
           
      return(
-     <Animated.View style={{ opacity,transform:[{scale}] }} >
+     <View>
      <TouchableOpacity onPress={()=>{onClickCard(item,index)}} style={[styles.skillCard,{borderRadius:20,marginTop:index==0?15:0,marginBottom:index+1==a.length? 50:20}]} >
        
      <View style={{backgroundColor:clr,left:.2,height:GV.cardHeight-10,marginTop:5,width:9,position:"absolute",borderTopLeftRadius:20,borderBottomLeftRadius:20}}/>  
@@ -127,7 +109,7 @@ props.navigation.navigate("Skills_Task",{skillIndex:i,indexs:skillIndex,from:fro
 
      </TouchableOpacity>
 
-     </Animated.View>
+     </View>
        )
  
     })
@@ -178,16 +160,6 @@ allUsers.map((e,i,a)=>{
         <ScrollView   
         style={styles.skillBox}
       showsVerticalScrollIndicator={false}
-      onScroll={ Animated.event([
-        {
-          nativeEvent: {
-            contentOffset: {
-              y: scrollY
-            }
-          },
-        }
-      ])
- }
       scrollEventThrottle={5}
      >
     

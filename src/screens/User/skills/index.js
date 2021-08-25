@@ -13,13 +13,17 @@ export default  inject("store")(observer(Skills));
  function  Skills  (props) {
   
   const {skill,addNewSkill,changeSkillName} = props.store;
-
+  const [loader,setloader]=useState(true);
 
   let i=0;                //use index as color array
   let numOfColors=4
   const scrollY= useRef(new Animated.Value(0)).current;  //skills
  
- 
+  useEffect(()=>{
+    setTimeout(() => {
+      setloader(false);
+    }, 500);
+      },[])
  
  const onClickCard=(item,index,sid)=>{
 props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
@@ -35,30 +39,7 @@ props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
     
     if(skill.length>0){
         let skil =  skill.map((it,index,a)=>{
-
-       const scale = scrollY.interpolate({
-          inputRange :[
-            -1,0,
-            GV.cardHeight * index,
-            GV.cardHeight * (index+10)
-          ]
-          ,  
-          outputRange:[1, 1, 1, 0]
-        })
-  
-        const opacity = scrollY.interpolate({
-          inputRange :[
-            -1,0,
-            GV.cardHeight * index,
-            GV.cardHeight * (index+10)
-          ]
-          ,  
-          outputRange:[1, 1, 1, 0]
-        })
-
-
-       
-
+ 
        if(i>numOfColors){
            i=0
         }
@@ -76,7 +57,7 @@ props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
   
           
      return(
-     <Animated.View style={{ opacity,transform:[{scale}] }} >
+     <View  >
      <TouchableOpacity onPress={()=>{onClickCard(item,index,sid)}} style={[styles.skillCard,{borderRadius:20,marginTop:index==0?15:0,marginBottom:index+1==a.length? 50:20}]} >
        
      <View style={{backgroundColor:clr,left:.2,height:GV.cardHeight-10,marginTop:5,width:9,position:"absolute",borderTopLeftRadius:20,borderBottomLeftRadius:20}}/>  
@@ -119,7 +100,7 @@ props.navigation.navigate("Skills_Task",{indexs:index,sid:sid})
 
      </TouchableOpacity>
 
-     </Animated.View>
+     </View>
        )
  
     })
@@ -142,69 +123,9 @@ else{
   
     return (
       <View style={styles.container}> 
-      {/* <TouchableOpacity onPress={()=>{
-
-const obj=  {
- e:{
-
-
-  name:"khota",
-  description:"I Native then Axios is the other option that you can explore. You can make any HTTP calls using Axios in React Native.",
-  progress:0.7,
  
-  deadline:"Deadline - "+new Date().toDateString(),
-  task:[
-     {
-        name:"Login Screen UI",
-        hours:"",
-        minutes:"40",
-     
-        require:"Text",
-        submit:false,
-        result:null,  
-     },
-     {
-        name:"Drawer Navigation UI",
-        hours:"1",
-        minutes:"",
-      
-        require:"Photo",
-        submit:true,
-        result:null,  //acpt
-     },{
-        name:"Animated UI",
-        hours:"2",
-        minutes:"",
-        
-        require:"Audio",
-        submit:true,
-        result:true,  //rjct
-     },
-     {
-        name:"Create Calender UI",
-        hours:"2",
-        minutes:"",
-        
-        require:"Video",
-        submit:true,
-        result:false,  //in review
-     }
-
-  ]
-
-
- },
- sid:654
-}
-
-addNewSkill(obj)
-      }}>
-        <Text>AAADddd</Text>
-      </TouchableOpacity> */}
-
-
-  
-
+ <utils.Loader loader={loader} />
+ 
 <View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
 <utils.Header  nav={props.navigation} type=""   />
 </View>
@@ -216,18 +137,8 @@ addNewSkill(obj)
    </View>
        
         <ScrollView   
-        style={styles.skillBox}
-      showsVerticalScrollIndicator={false}
-      onScroll={ Animated.event([
-        {
-          nativeEvent: {
-            contentOffset: {
-              y: scrollY
-            }
-          },
-        }
-      ])
- }
+    style={styles.skillBox}
+      showsVerticalScrollIndicator={false}  
       scrollEventThrottle={5}
      >
     

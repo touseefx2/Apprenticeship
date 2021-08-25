@@ -21,6 +21,7 @@ headerShown: false,
 }
  
 const profileIcon = {
+  unmountOnBlur:true,
 headerShown: false,
 drawerIcon: ({ focused, size }) => (
   <Image 

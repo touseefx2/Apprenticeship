@@ -25,7 +25,6 @@ const InputFieldborderFocusColor="#007069"
 const titleTextColor="#307ecc"
 const inputPlaceholderTextColor="#686868"
 const button1TextColor="white"
- 
 
 
   const GV = {

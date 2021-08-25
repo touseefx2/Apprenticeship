@@ -1,7 +1,7 @@
 import {StyleSheet} from "react-native";
 import GV from "./Global_Var";
 import {Window}  from "../../../themes/Window/index";
- 
+import GVs from '../../../store/Global_Var';
 
 export const styles = StyleSheet.create({
   
@@ -31,6 +31,14 @@ export const styles = StyleSheet.create({
     {
     marginTop:GV.textInputSep,
     textTransform:"capitalize"
-}
+},
+cardtitle:{
+  fontSize:18,color:"#9B9B9B",fontFamily:GVs.fontBold,marginTop:"15%",marginLeft:15
+},
+
+button1: {width:Window.Width-40, alignItems:"center",justifyContent:"center",borderRadius:4,height:45,alignSelf:"center"},
+button1Text:{color:GV.button1TextColor,fontWeight:"bold",fontSize:GV.button1FontSize,width:Window.Width-60}
+
+
   });
    

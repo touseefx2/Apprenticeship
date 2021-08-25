@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import {Text,View,Image,ScrollView} from 'react-native';
-import { TextInput } from 'react-native-paper';
+import React, { Component,useEffect,useState } from 'react';
+import {Text,View,Image,ScrollView,KeyboardAvoidingView,Platform} from 'react-native';
+import { TextInput,Button } from 'react-native-paper';
 import utils from "../../../utils/index";
 import {styles} from "./styles"
 import {inject, observer } from "mobx-react"; 
+import GVs from '../../../store/Global_Var';
+
 
 export default  inject("store")(observer(Profile));
 
@@ -25,19 +27,67 @@ const myuser={
 
  function   Profile  (props) {
  
+
+  const [fn,setfn]=useState("");
+  const [ln,setln]=useState("");
+  const [loader,setloader]=useState(false);
   const {user} = props.store;
  
+ 
+  useEffect(()=>{
+    setfn(user.FirstName)
+    setln(user.LastName)
+
+    setTimeout(() => {
+      setloader(false);
+    }, 500);
+  },[])
+
+  const cef=()=>{
+
+    if(fn=="" || ln==""){
+     return true
+    }else{
+      return false
+    }
+  }
+
+  const onclickupdate=()=>{
+    if(cef()){
+      utils.AlertMessage("","Please fill empty fields")
+    }else{
+      utils.AlertMessage("","Update Success")
+    }
+  }
+
+  const renderButton=()=>{
+  
+    return(
+   <View style={{ justifyContent: 'flex-end',marginBottom: 15,alignSelf:"center",marginTop:10}}>
+  <Button   compact={true} dark={false}   mode="contained" labelStyle={styles.button1Text} color="#007069" style={styles.button1}  onPress={()=>{onclickupdate()}}>
+  Update
+  </Button>
+  </View>
+      )
+    
+  
+  }
+
+
 const renderprofile = ()=>
 { 
 
-   let First_Name =  user.FirstName
-   let Last_Name =  user.LastName
-   let name= First_Name+" "+Last_Name
+  //  let First_Name =  user.FirstName
+  //  let Last_Name =  user.LastName
+   let name= fn+" "+ln
    name= utils.strLength(name,"name")
    var email= user.email.toLowerCase(); 
 
+   let c1="Personal"
+   let c2="Business"
+
 return(
-  <View style={{marginBottom:50}}>
+  <View style={{marginBottom:20}}>
 
   <View style={styles.dp} > 
 
@@ -49,33 +99,31 @@ return(
  <Text style={styles.name}>{name}</Text>
 </View>
 
-
 </View>
 
+{/* personal card */}
+<Text style={styles.cardtitle}>{c1}</Text>
  
-
-  <View style={{margin:10,padding:10,marginTop:"11%"}}>
+ <View style={{margin:20,marginTop:10,backgroundColor:"white",elevation:8,borderRadius:10}}>
  
-
-             
-
-<TextInput
-      style={styles.textInput}
-      disabled={true}
+<View style={{margin:5,padding:5}}>
+ 
+  <TextInput
       mode="outlined"
       label="First Name"
-      value={First_Name}
+      value={fn}
       placeholder="First Name"
+      onChangeText={(t)=>{setfn(t)}}
       // right={<TextInput.Affix text="/100" />}
     />
 
 <TextInput
-      style={styles.textInput}
-      disabled={true}
+      style={styles.textInput}   
       mode="outlined"
       label="Last Name"
-      value={Last_Name}
+      value={ln}
       placeholder="Last Name"
+      onChangeText={(t)=>{setln(t)}}
     />
 
 <TextInput
@@ -133,9 +181,19 @@ return(
 
 )}
 
+            
+  </View> 
+
+  </View>
+
+{/* bsns card */}
+<Text style={[styles.cardtitle,{marginTop:"4%"}]}>{c2}</Text>
+ 
+ <View style={{margin:20,marginTop:10,backgroundColor:"white",elevation:8,borderRadius:10}}>
+ 
+<View style={{margin:5,padding:5}}>
 
 <TextInput
-      style={styles.textInput}
       multiline={true}
       disabled={true}
       mode="outlined"
@@ -189,11 +247,17 @@ return(
       value={myuser.c_Website}
       placeholder="Company Website"
     />
- 
+
             
   </View> 
 
 
+
+
+
+ </View>
+
+  
 
 </View>
 
@@ -202,15 +266,25 @@ return(
 
  
     return (
-      <View> 
-         <utils.Header  nav={props.navigation}   type="profile" />
-        <ScrollView>        
-       {renderprofile()}  
-       </ScrollView>
-     </View>
+      <View style={{flex:1,backgroundColor:"white"}}> 
+   <utils.Loader loader={loader} />
+<View style={{paddingLeft:7,paddingRight:7,marginLeft:7,marginRight:7,marginTop:5}}>
+<utils.Header  nav={props.navigation} type="Profile"   />
+</View>
 
+<KeyboardAvoidingView
+ keyboardVerticalOffset={Platform.OS == "ios" ? 10 : 0}
+ behavior={Platform.OS == "ios" ? "padding" : ""} style={{ flex: 1 }} >
 
-  
+     <ScrollView>        
+    {renderprofile()}  
+    </ScrollView>
+
+    {renderButton()}
+
+    </KeyboardAvoidingView>
+
+  </View>
     );
  
 

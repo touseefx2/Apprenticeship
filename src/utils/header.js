@@ -45,8 +45,9 @@ if(room.length>1){
     return(
       <View style={{flexDirection:"row",alignItems:"center"}}>
       
+      <TouchableOpacity onPress={()=>{props.nav.openDrawer()}}>
       <utils.vectorIcon.Ionicons  name="md-menu" size={40} color="#007069" onPress={()=>props.nav.openDrawer()} />
-      
+      </TouchableOpacity>
       
      
       {(type=="home" ) &&
