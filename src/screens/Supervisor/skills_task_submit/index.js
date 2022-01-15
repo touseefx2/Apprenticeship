@@ -8,13 +8,11 @@ import { Container, Content, Item, Input ,Text } from 'native-base';
 import GV from "./Global_Var"
 import {Window} from "../../../themes/Window/index";
 import { styles } from './styles'; 
-import Textarea from 'react-native-textarea';
 import TrackPlayer   from 'react-native-track-player';
 import VideoPlayer from 'react-native-video-controls'; 
 import { inject, observer } from "mobx-react"; 
 import moment from "moment";
 import OpenFile from 'react-native-doc-viewer';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
  
  
   function  Skills_Task_Submit  (props) {
@@ -107,10 +105,6 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
  },[Position,Totalduration])
  
   useEffect(  ()=>{
-  
-   
-      console.log("item : ",item)
- 
     
      if(appS=="background" || appS=="inactive"){
       if(Index!==""){
@@ -989,7 +983,7 @@ OpenFile.openDoc([{
       }
   
     
-      let fb= item.submit&&item.result?"Approved" : 
+            let fb= item.submit&&item.result?"Approved" : 
              item.submit&&item.result==false?"Rejected" :
              item.submit&&item.result==null?"Pending" :""
 

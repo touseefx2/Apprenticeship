@@ -10,8 +10,8 @@ import TrackPlayer   from 'react-native-track-player';
 import VideoPlayer from 'react-native-video-controls';
 import { CommonActions} from '@react-navigation/native';
 import MultipleImagePicker from "@baronha/react-native-multiple-image-picker"; 
-import FilePickerManager from "react-native-file-picker";
 import ImagePicker from "react-native-customized-image-picker"; 
+import FilePickerManager from "react-native-file-picker";
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import { inject, observer } from "mobx-react"; 
 import moment from "moment";
@@ -211,7 +211,6 @@ let videoTypes="video"
     }
    
   }
-
 
   useEffect(() => {
     // Anything in here is fired on component mount.
@@ -1842,14 +1841,7 @@ return(
       //   color=video.length>2||item.data.length>2?"red":"green"
       // }
     
-
-    
-     
-
-
-      
-      
-
+ 
 
         return(
           <View style={{flex:1,backgroundColor:"white"}}>  
